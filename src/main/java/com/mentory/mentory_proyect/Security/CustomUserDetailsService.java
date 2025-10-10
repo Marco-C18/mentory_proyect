@@ -1,0 +1,22 @@
+package com.mentory.mentory_proyect.Security;
+
+import com.mentory.mentory_proyect.model.User;
+import com.mentory.mentory_proyect.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User usuario = userRepository.findByEmailUsuario(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
+
+        return new CustomUserDetails(usuario);
+    }
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MentorEdu</title>
+
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+    <a href="/" class="btn-flotante" title="Volver al inicio">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <section class="card-container">
+        <section class="visual-card">
+            <img th:src="@{/img/forms/registro_mentory.png}" alt="Registro MentorEdu">
+        </section>
+
+        <section class="form-card">
+            <p class="Title">Crear cuenta</p>
+
+            <section class="google">
+                <i class="fa-brands fa-google"></i>
+                <p class="label">Usa tu gmail para registrarte</p>
+            </section>
+
+            <!-- Alerta de error moderna -->
+            <div th:if="${error}" class="alert alert-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span class="alert-text" th:text="${error}">Error al registrar usuario</span>
+            </div>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <input type="text" th:field="*{nombreUsuario}" placeholder="Nombre" required />
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <input type="text" th:field="*{phoneUsuario}" placeholder="Teléfono" required />
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <input type="email" th:field="*{emailUsuario}" placeholder="Email" required />
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <input type="password" th:field="*{contraseñaUsuario}" placeholder="Contraseña" required />
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit">REGISTRARSE</button>
+                </div>
+
+                <div class="iniciar-sesion">
+                    <p>¿Ya tienes una cuenta?</p>
+                    <a href="/login">Iniciar sesión</a>
+                </div>
+            </form>
+        </section>
+    </section>
+
+    <!-- Script para mostrar modal de éxito -->
+    <script th:src="@{/js/success-modal.js}"></script>
+    <script th:if="${showSuccessModal}">
+        showSuccessModal('[[${successMessage}]]');
+    </script>
+</body>
+
+</html>
