@@ -1,21 +1,21 @@
 package com.mentory.mentory_proyect.services;
 
-import com.mentory.mentory_proyect.model.User;
-import com.mentory.mentory_proyect.repository.UserRepository;
+import com.mentory.mentory_proyect.model.AprendizModel;
+import com.mentory.mentory_proyect.repository.AprendizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class AprendizService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AprendizRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String registerUser(User user) {
+    public String registerUser(AprendizModel user) {
         if (userRepository.existsByEmailUsuario(user.getEmailUsuario())) {
             return "El correo ya está registrado.";
         }
@@ -43,7 +43,7 @@ public class UserService {
         return "Registro exitoso";
     }
 
-    public User getUserByEmail(String email) {
+    public AprendizModel getUserByEmail(String email) {
         return userRepository.findByEmailUsuario(email).orElse(null);
     }
 }

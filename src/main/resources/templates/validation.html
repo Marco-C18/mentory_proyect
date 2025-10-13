@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MentorEdu</title>
+
+    <link rel="stylesheet" th:href="@{/css/validation.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+    <a href="/" class="btn-flotante" title="Volver al inicio">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <section class="card-container">
+        <section class="visual-card">
+            <img th:src="@{/img/forms/registro_mentory.png}" alt="Registro MentorEdu">
+        </section>
+
+        <section class="form-card">
+            <p class="Title">Selecciona tu modalidad</p>
+
+            <div class="button-container">
+                <a href="/registro/mentor" class="Mentor">MENTOR</a>
+                <a href="/registro/aprendiz" class="Aprendiz">APRENDIZ</a>
+            </div>
+
+            <div class="iniciar-sesion">
+                <p>¿Ya tienes una cuenta?</p>
+                <a href="/login">Iniciar sesión</a>
+            </div>
+
+        </section>
+    </section>
+
+    <script th:src="@{/js/register.js}"></script>
+</body>
+
+</html>

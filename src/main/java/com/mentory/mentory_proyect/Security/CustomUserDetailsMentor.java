@@ -1,22 +1,22 @@
 package com.mentory.mentory_proyect.Security;
 
-import com.mentory.mentory_proyect.model.AprendizModel;
+import com.mentory.mentory_proyect.model.MentorModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetailsMentor implements UserDetails {
 
-    private final AprendizModel user;
+    private final MentorModel user;
 
-    public CustomUserDetails(AprendizModel user) {
+    public CustomUserDetailsMentor(MentorModel user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No usas roles todavía
+        return Collections.emptyList();
     }
 
     @Override
@@ -51,5 +51,9 @@ public class CustomUserDetails implements UserDetails {
 
     public String getNombreUsuario() {
         return user.getNombreUsuario();
+    }
+
+    public String getEspecialidad() {
+        return user.getEspecialidad();
     }
 }
