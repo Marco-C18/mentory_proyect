@@ -5,22 +5,34 @@ import com.mentory.mentory_proyect.repository.AprendizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class AprendizService {
 
     @Autowired
-    private AprendizRepository userRepository;
+    private AprendizRepository aprendizRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // 🔹 Obtener aprendiz por ID
+    public AprendizModel obtenerPorId(Long id) {
+        return aprendizRepository.findById(id).orElse(null);
+    }
+
+    // 🔹 Listar todos los aprendices
+    public List<AprendizModel> listarTodos() {
+        return aprendizRepository.findAll();
+    }
+
+    // 🔹 Registrar nuevo aprendiz (con validaciones)
     public String registerUser(AprendizModel user) {
-        if (userRepository.existsByEmailUsuario(user.getEmailUsuario())) {
+        if (aprendizRepository.existsByEmailUsuario(user.getEmailUsuario())) {
             return "El correo ya está registrado.";
         }
 
-        if (userRepository.existsByPhoneUsuario(user.getPhoneUsuario())) {
+        if (aprendizRepository.existsByPhoneUsuario(user.getPhoneUsuario())) {
             return "El teléfono ya está registrado.";
         }
 
@@ -36,14 +48,15 @@ public class AprendizService {
             return "La contraseña debe tener al menos 8 caracteres.";
         }
 
-        // Cifrar la contraseña antes de guardar
+        // 🔹 Cifrar contraseña antes de guardar
         user.setContraseñaUsuario(passwordEncoder.encode(user.getContraseñaUsuario()));
 
-        userRepository.save(user);
+        aprendizRepository.save(user);
         return "Registro exitoso";
     }
 
-    public AprendizModel getUserByEmail(String email) {
-        return userRepository.findByEmailUsuario(email).orElse(null);
+    // 🔹 Buscar aprendiz por email (para autenticación y HomeController)
+    public AprendizModel buscarPorEmail(String email) {
+        return aprendizRepository.findByEmailUsuario(email).orElse(null);
     }
 }

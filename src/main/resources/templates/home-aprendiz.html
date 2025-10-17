@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Aprendiz</title>
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2 class="logo">MentorEdu</h2>
+
+      <!-- Perfil del usuario -->
+      <div class="perfil">
+        <div class="perfil-avatar">👤</div>
+        <div class="perfil-info">
+          <p class="perfil-nombre" th:text="${aprendiz.nombreUsuario}">Nombre del aprendiz</p>
+          <p class="perfil-rol">Aprendiz</p>
+        </div>
+      </div>
+
+      <ul>
+        <li><a href="#" onclick="mostrarSeccion('buscarMentores')"><i>🔍</i> Buscar mentores</a></li>
+        <li><a href="#" onclick="mostrarSeccion('misMentorias')"><i>📚</i> Mis mentorías</a></li>
+        <li><a href="#" onclick="mostrarSeccion('solicitudes')"><i>📬</i> Solicitudes</a></li>
+        <li>
+          <a href="#" onclick="mostrarSeccion('notificaciones')">
+            <i>🔔</i> Notificaciones
+            <span th:if="${notiCount > 0}" th:text="${notiCount}" 
+              style="background:#ff4444;color:white;padding:3px 7px;border-radius:50%;margin-left:5px;font-size:12px;">
+            </span>
+          </a>
+        </li>
+        <li><a th:href="@{/logout}" class="logout"><i>🚪</i> Salir</a></li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <!-- Buscar Mentores -->
+      <section id="buscarMentores" class="seccion">
+        <h2>Buscar Mentores</h2>
+        <div class="mentor-list">
+          <div class="mentor-card" th:each="mentor : ${mentores}">
+            <h3 th:text="${mentor.nombreUsuario}"></h3>
+            <p>Especialidad: <span th:text="${mentor.especialidad}"></span></p>
+            <form th:action="@{/solicitudes/enviar/{mentorId}(mentorId=${mentor.id})}" method="post">
+              <input type="hidden" name="aprendizId" th:value="${aprendiz.id}">
+              <button type="submit">Enviar Solicitud</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mis Solicitudes -->
+      <section id="solicitudes" class="seccion" style="display:none;">
+        <h2>Mis Solicitudes</h2>
+        <div th:each="sol : ${solicitudes}">
+          <p>Mentor: <strong th:text="${sol.mentor.nombreUsuario}"></strong></p>
+          <p>Estado: <span th:text="${sol.estado}"></span></p>
+        </div>
+      </section>
+
+      <!-- Notificaciones -->
+      <section id="notificaciones" class="seccion" style="display:none;">
+        <h2>Notificaciones</h2>
+        <div th:each="noti : ${notificaciones}" class="notificacion">
+          <p th:text="${noti.mensaje}"></p>
+          <small th:text="${noti.fecha}"></small>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function mostrarSeccion(id) {
+      document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,26 +1,38 @@
 package com.mentory.mentory_proyect.services;
 
+import com.mentory.mentory_proyect.model.MentorModel;
+import com.mentory.mentory_proyect.repository.MentorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.mentory.mentory_proyect.model.MentorModel;
-import com.mentory.mentory_proyect.repository.MentorRepository;
+import java.util.List;
 
 @Service
 public class MentorService {
 
     @Autowired
-    private MentorRepository userRepository;
+    private MentorRepository mentorRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // 🔹 Obtener mentor por ID
+    public MentorModel obtenerPorId(Long id) {
+        return mentorRepository.findById(id).orElse(null);
+    }
+
+    // 🔹 Listar todos los mentores
+    public List<MentorModel> listarTodos() {
+        return mentorRepository.findAll();
+    }
+
+    // 🔹 Registrar nuevo mentor (con validaciones)
     public String registerUser(MentorModel user) {
-        if (userRepository.existsByEmailUsuario(user.getEmailUsuario())) {
+        if (mentorRepository.existsByEmailUsuario(user.getEmailUsuario())) {
             return "El correo ya está registrado.";
         }
 
-        if (userRepository.existsByPhoneUsuario(user.getPhoneUsuario())) {
+        if (mentorRepository.existsByPhoneUsuario(user.getPhoneUsuario())) {
             return "El teléfono ya está registrado.";
         }
 
@@ -36,15 +48,15 @@ public class MentorService {
             return "La contraseña debe tener al menos 8 caracteres.";
         }
 
-        // Cifrar la contraseña antes de guardar
+        // 🔹 Cifrar contraseña antes de guardar
         user.setContraseñaUsuario(passwordEncoder.encode(user.getContraseñaUsuario()));
 
-        userRepository.save(user);
+        mentorRepository.save(user);
         return "Registro exitoso";
     }
 
-    public MentorModel getUserByEmail(String email) {
-        return userRepository.findByEmailUsuario(email).orElse(null);
+    // 🔹 Buscar mentor por email (para autenticación y HomeController)
+    public MentorModel buscarPorEmail(String email) {
+        return mentorRepository.findByEmailUsuario(email).orElse(null);
     }
-
 }

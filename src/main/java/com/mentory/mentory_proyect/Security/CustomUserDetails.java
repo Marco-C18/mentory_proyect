@@ -1,32 +1,53 @@
 package com.mentory.mentory_proyect.Security;
 
 import com.mentory.mentory_proyect.model.AprendizModel;
+import com.mentory.mentory_proyect.model.MentorModel;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final AprendizModel user;
+    private final String email;
+    private final String password;
+    private final String role;
+    private final Long id;
+    private final String nombre;
 
+    // 🔹 Constructor para Aprendiz
     public CustomUserDetails(AprendizModel user) {
-        this.user = user;
+        this.email = user.getEmailUsuario();
+        this.password = user.getContraseñaUsuario();
+        this.role = "ROLE_APRENDIZ";
+        this.id = user.getId();
+        this.nombre = user.getNombreUsuario();
+    }
+
+    // 🔹 Constructor para Mentor
+    public CustomUserDetails(MentorModel user) {
+        this.email = user.getEmailUsuario();
+        this.password = user.getContraseñaUsuario();
+        this.role = "ROLE_MENTOR";
+        this.id = user.getId();
+        this.nombre = user.getNombreUsuario();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No usas roles todavía
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     @Override
     public String getPassword() {
-        return user.getContraseñaUsuario();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmailUsuario();
+        return email;
     }
 
     @Override
@@ -49,7 +70,15 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    public String getNombreUsuario() {
-        return user.getNombreUsuario();
+    public String getRole() {
+        return role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
