@@ -1,0 +1,167 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f4f6fa;
+  display: flex;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #2e3a59, #1c2238);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+  box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+  letter-spacing: 1px;
+  border: none; /* 🔹 eliminamos la raya inferior */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  color: #e4e6eb;
+  text-decoration: none;
+  padding: 12px 20px;
+  transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #00c4ff;
+  color: #fff;
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.logout {
+  margin-top: auto;
+  color: #f88;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+h2 {
+  color: #2e3a59;
+  margin-bottom: 20px;
+}
+
+.mentor-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.mentor-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 280px;
+  transition: transform 0.3s ease;
+}
+
+.mentor-card:hover {
+  transform: scale(1.03);
+}
+
+button {
+  background-color: #00c4ff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #00a1d4;
+}
+
+.notificacion {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Perfil del usuario en el sidebar */
+.perfil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.perfil-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.perfil-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-nombre {
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+}
+
+.perfil-rol {
+  color: #ccc;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Logo blanco sin raya */
+.logo {
+  color: white;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+  border: none; /* 🔹 Asegura que no tenga línea */
+}

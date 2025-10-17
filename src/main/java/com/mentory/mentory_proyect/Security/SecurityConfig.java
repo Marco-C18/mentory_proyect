@@ -10,18 +10,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final CustomSuccessHandler customSuccessHandler;
+    
+
+    public SecurityConfig(CustomSuccessHandler customSuccessHandler) {
+        this.customSuccessHandler = customSuccessHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/img/**", "/registro/mentor", "/registro/aprendiz")
+                        .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/img/**",
+                                "/registro/mentor", "/registro/aprendiz")
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
+                        .successHandler(customSuccessHandler) // Redirección según rol
                         .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout

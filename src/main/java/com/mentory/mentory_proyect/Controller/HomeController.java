@@ -1,13 +1,66 @@
 package com.mentory.mentory_proyect.Controller;
 
+import com.mentory.mentory_proyect.model.*;
+import com.mentory.mentory_proyect.services.*;
+import com.mentory.mentory_proyect.Security.CustomUserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
+    private final SolicitudService solicitudService;
+    private final NotificacionService notificacionService;
+    private final MentorService mentorService;
+    private final AprendizService aprendizService;
+
+    public HomeController(SolicitudService solicitudService,
+                          NotificacionService notificacionService,
+                          MentorService mentorService,
+                          AprendizService aprendizService) {
+        this.solicitudService = solicitudService;
+        this.notificacionService = notificacionService;
+        this.mentorService = mentorService;
+        this.aprendizService = aprendizService;
+    }
+
+    private String getEmail(Authentication auth) {
+        if (auth == null) return null;
+        Object principal = auth.getPrincipal();
+        if (principal instanceof CustomUserDetails custom) {
+            return custom.getUsername();
+        }
+        return auth.getName();
+    }
+
+    @GetMapping("/aprendiz-home")
+    public String homeAprendiz(Model model, Authentication auth) {
+        String email = getEmail(auth);
+        AprendizModel aprendiz = aprendizService.buscarPorEmail(email);
+        if (aprendiz == null) return "redirect:/login";
+
+        model.addAttribute("aprendiz", aprendiz);
+        model.addAttribute("mentores", mentorService.listarTodos());
+        model.addAttribute("solicitudes", solicitudService.listarSolicitudesAprendiz(aprendiz));
+        model.addAttribute("notificaciones", notificacionService.obtenerNotificaciones(aprendiz.getId()));
+        model.addAttribute("notiCount", notificacionService.contarNoLeidas(aprendiz.getId()));
+
+        return "home-aprendiz";
+    }
+
+    @GetMapping("/mentor-home")
+    public String homeMentor(Model model, Authentication auth) {
+        String email = getEmail(auth);
+        MentorModel mentor = mentorService.buscarPorEmail(email);
+        if (mentor == null) return "redirect:/login";
+
+        model.addAttribute("mentor", mentor);
+        model.addAttribute("solicitudes", solicitudService.listarSolicitudesMentor(mentor));
+        model.addAttribute("notificaciones", notificacionService.obtenerNotificaciones(mentor.getId()));
+        model.addAttribute("notiCount", notificacionService.contarNoLeidas(mentor.getId()));
+
+        return "home-mentor";
     }
 }
