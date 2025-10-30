@@ -23,6 +23,8 @@
         <li><a href="#" onclick="mostrarSeccion('buscarMentores')"><i>🔍</i> Buscar mentores</a></li>
         <li><a href="#" onclick="mostrarSeccion('misMentorias')"><i>📚</i> Mis mentorías</a></li>
         <li><a href="#" onclick="mostrarSeccion('solicitudes')"><i>📬</i> Solicitudes</a></li>
+        <li><a href="#" onclick="mostrarSeccion('recordatorios')"><i>⏰</i> Recordatorios</a></li>
+
         <li>
           <a href="#" onclick="mostrarSeccion('notificaciones')">
             <i>🔔</i> Notificaciones
@@ -31,18 +33,48 @@
             </span>
           </a>
         </li>
+
         <li><a th:href="@{/logout}" class="logout"><i>🚪</i> Salir</a></li>
       </ul>
     </aside>
 
     <main class="content">
-      <!-- Buscar Mentores -->
+
+      <!-- BUSCAR MENTORES CON FILTROS -->
       <section id="buscarMentores" class="seccion">
         <h2>Buscar Mentores</h2>
+
+        <!-- FILTROS -->
+        <form th:action="@{/buscarMentores}" method="get" class="filtros">
+
+          <select name="ciclo" required>
+            <option value="" disabled selected>Ciclo académico</option>
+            <option value="I Ciclo">I Ciclo</option>
+            <option value="II Ciclo">II Ciclo</option>
+            <option value="III Ciclo">III Ciclo</option>
+            <option value="IV Ciclo">IV Ciclo</option>
+            <option value="V Ciclo">V Ciclo</option>
+            <option value="VI Ciclo">VI Ciclo</option>
+          </select>
+
+          <select name="especialidad" required>
+            <option value="" disabled selected>Especialidad</option>
+            <option value="Programación">Programación</option>
+            <option value="Matemáticas">Matemáticas</option>
+            <option value="Ciencias">Ciencias</option>
+            <option value="Idiomas">Idiomas</option>
+            <option value="Arte">Arte</option>
+          </select>
+
+          <button type="submit">Buscar</button>
+        </form>
+
+        <!-- RESULTADOS -->
         <div class="mentor-list">
           <div class="mentor-card" th:each="mentor : ${mentores}">
             <h3 th:text="${mentor.nombreUsuario}"></h3>
             <p>Especialidad: <span th:text="${mentor.especialidad}"></span></p>
+
             <form th:action="@{/solicitudes/enviar/{mentorId}(mentorId=${mentor.id})}" method="post">
               <input type="hidden" name="aprendizId" th:value="${aprendiz.id}">
               <button type="submit">Enviar Solicitud</button>
@@ -51,7 +83,7 @@
         </div>
       </section>
 
-      <!-- Mis Solicitudes -->
+      <!-- SOLICITUDES -->
       <section id="solicitudes" class="seccion" style="display:none;">
         <h2>Mis Solicitudes</h2>
         <div th:each="sol : ${solicitudes}">
@@ -60,14 +92,44 @@
         </div>
       </section>
 
-      <!-- Notificaciones -->
+      <!-- NOTIFICACIONES -->
       <section id="notificaciones" class="seccion" style="display:none;">
         <h2>Notificaciones</h2>
-        <div th:each="noti : ${notificaciones}" class="notificacion">
+        <div class="notificacion" th:each="noti : ${notificaciones}">
           <p th:text="${noti.mensaje}"></p>
           <small th:text="${noti.fecha}"></small>
         </div>
       </section>
+
+      <!-- RECORDATORIOS -->
+      <section id="recordatorios" class="seccion" style="display:none;">
+        <h2>Recordatorios</h2>
+
+        <form th:action="@{/recordatorios/guardar}" method="post" class="recordatorio-form">
+
+          <input type="hidden" name="usuarioId" th:value="${aprendiz.id}">
+
+          <label>Mensaje del recordatorio</label>
+          <input type="text" name="mensaje" placeholder="Ej: Sesión con el mentor" required>
+
+          <label>Fecha y hora</label>
+          <!-- No permite seleccionar fechas pasadas -->
+          <input type="datetime-local" id="fechaRecordatorio" name="fecha" required>
+
+          <button type="submit">Guardar Recordatorio ⏰</button>
+        </form>
+
+        <br><br>
+
+        <!-- LISTADO -->
+        <div class="recordatorio-lista">
+          <div class="recordatorio-item" th:each="rec : ${recordatorios}">
+            <p><strong th:text="${rec.mensaje}"></strong></p>
+            <small th:text="${#temporals.format(rec.fecha, 'dd/MM/yyyy HH:mm')}"></small>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -76,6 +138,11 @@
       document.querySelectorAll('.seccion').forEach(sec => sec.style.display = 'none');
       document.getElementById(id).style.display = 'block';
     }
+
+    // ✅ Bloquea fechas pasadas en el input datetime-local
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById("fechaRecordatorio").min = now.toISOString().slice(0, 16);
   </script>
 </body>
 </html>

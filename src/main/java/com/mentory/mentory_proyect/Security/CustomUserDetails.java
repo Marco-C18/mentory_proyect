@@ -17,7 +17,7 @@ public class CustomUserDetails implements UserDetails {
     private final Long id;
     private final String nombre;
 
-    // 🔹 Constructor para Aprendiz
+    // Constructor para Aprendiz
     public CustomUserDetails(AprendizModel user) {
         this.email = user.getEmailUsuario();
         this.password = user.getContraseñaUsuario();
@@ -26,7 +26,7 @@ public class CustomUserDetails implements UserDetails {
         this.nombre = user.getNombreUsuario();
     }
 
-    // 🔹 Constructor para Mentor
+    // Constructor para Mentor
     public CustomUserDetails(MentorModel user) {
         this.email = user.getEmailUsuario();
         this.password = user.getContraseñaUsuario();

@@ -16,17 +16,17 @@ public class AprendizService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // 🔹 Obtener aprendiz por ID
+    // Obtener aprendiz por ID
     public AprendizModel obtenerPorId(Long id) {
         return aprendizRepository.findById(id).orElse(null);
     }
 
-    // 🔹 Listar todos los aprendices
+    // Listar todos los aprendices
     public List<AprendizModel> listarTodos() {
         return aprendizRepository.findAll();
     }
 
-    // 🔹 Registrar nuevo aprendiz (con validaciones)
+    // Registrar nuevo aprendiz (con validaciones)
     public String registerUser(AprendizModel user) {
         if (aprendizRepository.existsByEmailUsuario(user.getEmailUsuario())) {
             return "El correo ya está registrado.";
@@ -48,14 +48,14 @@ public class AprendizService {
             return "La contraseña debe tener al menos 8 caracteres.";
         }
 
-        // 🔹 Cifrar contraseña antes de guardar
+        // Cifrar contraseña antes de guardar
         user.setContraseñaUsuario(passwordEncoder.encode(user.getContraseñaUsuario()));
 
         aprendizRepository.save(user);
         return "Registro exitoso";
     }
 
-    // 🔹 Buscar aprendiz por email (para autenticación y HomeController)
+    // Buscar aprendiz por email (para autenticación y HomeController)
     public AprendizModel buscarPorEmail(String email) {
         return aprendizRepository.findByEmailUsuario(email).orElse(null);
     }

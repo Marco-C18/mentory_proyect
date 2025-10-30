@@ -40,7 +40,7 @@
       <section id="solicitudesRecibidas" class="seccion">
         <h2>Solicitudes Recibidas</h2>
         <div th:each="sol : ${solicitudes}">
-          <p><strong th:text="${sol.aprendiz.nombreUsuario}"></strong> quiere ser tu aprendiz.</p>
+          <p><strong th:text="${sol.aprendiz.nombreUsuario}"></strong> Quiere ser tu aprendiz.</p>
           <p>Estado: <span th:text="${sol.estado}"></span></p>
           <div th:if="${sol.estado == 'pendiente'}">
             <form th:action="@{/solicitudes/responder/{id}(id=${sol.id})}" method="post" style="display:flex;gap:10px;">

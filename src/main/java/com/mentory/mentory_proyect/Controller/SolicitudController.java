@@ -24,14 +24,14 @@ public class SolicitudController {
         this.notificacionService = notificacionService;
     }
 
-    // 🔹 Enviar solicitud desde el aprendiz al mentor
+    // Enviar solicitud desde el aprendiz al mentor
     @PostMapping("/enviar/{mentorId}")
     public String enviarSolicitud(@PathVariable Long mentorId, @RequestParam Long aprendizId) {
         MentorModel mentor = mentorService.obtenerPorId(mentorId);
         AprendizModel aprendiz = aprendizService.obtenerPorId(aprendizId);
         solicitudService.enviarSolicitud(aprendiz, mentor);
 
-        // ✅ Notificación para el mentor
+        // Notificación para el mentor
         String mensaje = "El aprendiz " + aprendiz.getNombreUsuario() + " te ha enviado una solicitud de mentoría.";
         NotificacionModel noti = new NotificacionModel(mensaje, mentor.getId());
         notificacionService.guardarNotificacion(noti);
@@ -39,12 +39,12 @@ public class SolicitudController {
         return "redirect:/aprendiz-home";
     }
 
-    // 🔹 Responder solicitud (aceptar o rechazar)
+    // Responder solicitud (aceptar o rechazar)
     @PostMapping("/responder/{id}")
     public String responderSolicitud(@PathVariable Long id, @RequestParam String estado) {
         solicitudService.actualizarEstado(id, estado);
 
-        // ✅ Obtener solicitud actualizada para enviar la notificación al aprendiz
+        // Obtener solicitud actualizada para enviar la notificación al aprendiz
         SolicitudModel solicitud = solicitudService.obtenerPorId(id);
         String mensaje;
         if (estado.equalsIgnoreCase("aceptada")) {
@@ -53,7 +53,7 @@ public class SolicitudController {
             mensaje = "Tu solicitud fue RECHAZADA por el mentor " + solicitud.getMentor().getNombreUsuario();
         }
 
-        // ✅ Crear notificación para el aprendiz
+        // Crear notificación para el aprendiz
         NotificacionModel noti = new NotificacionModel(mensaje, solicitud.getAprendiz().getId());
         notificacionService.guardarNotificacion(noti);
 

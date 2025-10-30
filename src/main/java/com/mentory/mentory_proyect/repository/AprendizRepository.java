@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface AprendizRepository extends JpaRepository<AprendizModel, Long> {
     Optional<AprendizModel> findByEmailUsuario(String emailUsuario);
     boolean existsByEmailUsuario(String emailUsuario);
-    boolean existsByPhoneUsuario(String phoneUsuario); // ✅ ahora sí funcionará
+    boolean existsByPhoneUsuario(String phoneUsuario); 
 }
