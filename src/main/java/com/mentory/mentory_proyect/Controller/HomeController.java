@@ -62,7 +62,7 @@ public class HomeController {
         return "home-aprendiz";
     }
 
-       @GetMapping("/buscarMentores")
+@GetMapping("/buscarMentores")
 public String buscarMentores(
         @RequestParam String especialidad,
         @RequestParam String ciclo,
@@ -87,10 +87,7 @@ public String buscarMentores(
     return "home-aprendiz";
 }
 
-
-
-
-        @PostMapping("/recordatorios/guardar")
+    @PostMapping("/recordatorios/guardar")
     public String guardarRecordatorio(
             @RequestParam Long usuarioId,
             @RequestParam String mensaje,

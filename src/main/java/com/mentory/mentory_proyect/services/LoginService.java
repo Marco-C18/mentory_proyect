@@ -3,8 +3,6 @@ package com.mentory.mentory_proyect.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mentory.mentory_proyect.model.AprendizModel;
-import com.mentory.mentory_proyect.model.MentorModel;
 import com.mentory.mentory_proyect.repository.AprendizRepository;
 import com.mentory.mentory_proyect.repository.MentorRepository;
 
