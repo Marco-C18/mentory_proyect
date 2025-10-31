@@ -59,4 +59,8 @@ public class MentorService {
     public MentorModel buscarPorEmail(String email) {
         return mentorRepository.findByEmailUsuario(email).orElse(null);
     }
+
+    public void guardarMentorDirecto(MentorModel mentor) {
+    mentorRepository.save(mentor);
+    }
 }

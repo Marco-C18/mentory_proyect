@@ -59,4 +59,8 @@ public class AprendizService {
     public AprendizModel buscarPorEmail(String email) {
         return aprendizRepository.findByEmailUsuario(email).orElse(null);
     }
+
+    public void guardarAprendizDirecto(AprendizModel aprendiz) {
+    aprendizRepository.save(aprendiz);
+    }
 }

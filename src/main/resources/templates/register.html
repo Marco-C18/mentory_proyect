@@ -4,68 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logueo</title>
+    <title>Registro - MentorEdu</title>
 
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
 </head>
 
 <body>
-
-   
-
-
+    
     <section class="card-container">
+        <section class="visual-card">
+            <img th:src="@{/img/forms/registro_mentory.png}" alt="Registro MentorEdu">
+        </section>
 
         <section class="form-card">
+            <p class="Title">Crear cuenta</p>
 
-            <p class="Title">Iniciar Sesión</p>
             <section class="google" onclick="signInWithGoogle()" style="cursor: pointer;">
                 <i class="fa-brands fa-google"></i>
-                <p class="label">Inicia sesión con Google</p>
+                <p class="label">Usa tu gmail para registrarte</p>
             </section>
 
-            <!-- Alerta de error-->
+            <!-- Alerta de error moderna -->
             <div th:if="${error}" class="alert alert-error">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span class="alert-text" th:text="${error}">Error de login</span>
+                <span class="alert-text" th:text="${error}">Error al registrar usuario</span>
             </div>
 
-            <!-- Alerta de logout -->
-            <!-- <div th:if="${logoutMessage}" class="alert alert-info">
-                <i class="fa-solid fa-circle-info"></i>
-                <span class="alert-text" th:text="${logoutMessage}">Sesión cerrada</span>
-            </div> -->
-
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/registro}" th:object="${usuario}" method="post">
                 <div class="input-group">
                     <div class="input-icon">
+                        <input type="text" th:field="*{nombreUsuario}" placeholder="Nombre completo" required />
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+                <!-- <div class="input-group">
+                    <div class="input-icon">
+                        <input type="text" th:field="*{phoneUsuario}" placeholder="Teléfono" required />
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div> -->
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <input type="email" th:field="*{emailUsuario}" placeholder="Email" required />
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email" name="username" th:value="${email}" placeholder="Email"
-                            required />
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="input-icon">
+                        <input type="password" th:field="*{contraseñaUsuario}" name="contraseñaUsuario" placeholder="Contraseña" required />
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Contraseña" required />
                     </div>
                 </div>
 
                 <div class="button-container">
-                    <a href="#">¿Olvidaste tu contraseña?</a>
-                    <button type="submit">ACCEDER</button>
-                </div>
-
-                <div class="iniciar-sesion">
-                    <p>O crea una cuenta <a href="/registro">Registrarse</a></p>
+                    <button type="submit">CONTINUAR</button>
                 </div>
             </form>
-        </section>
-        <section class="visual-card">
-            <img th:src="@{/img/forms/login_mentor.png}" alt="img">
+
+            <div class="iniciar-sesion">
+                <p>¿Ya tienes una cuenta?</p>
+                <a href="/login">Iniciar sesión</a>
+            </div>
         </section>
     </section>
 
@@ -132,6 +135,7 @@
         };
     </script>
 
+    <script th:src="@{/js/register.js}"></script>
 </body>
 
 </html>

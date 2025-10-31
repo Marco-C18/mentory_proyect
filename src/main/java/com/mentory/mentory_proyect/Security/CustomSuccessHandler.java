@@ -24,8 +24,30 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
         String redirectURL = request.getContextPath();
 
+        // Obtener información del usuario
+        Object principal = authentication.getPrincipal();
+        Boolean perfilCompletado = true;
+
+        if (principal instanceof CustomUserDetails customUser) {
+            perfilCompletado = customUser.getPerfilCompletado();
+        }
+
         for (GrantedAuthority role : roles) {
             String roleName = role.getAuthority();
+            
+            // Si el perfil no está completado, redirigir a elegir rol
+            if (perfilCompletado != null && !perfilCompletado) {
+                redirectURL = "/registro/elegir-rol";
+                break;
+            }
+            
+            // Si el rol es PENDIENTE, redirigir a elegir rol
+            if (roleName.equals("ROLE_PENDIENTE")) {
+                redirectURL = "/registro/elegir-rol";
+                break;
+            }
+            
+            // Rutas normales según rol
             if (roleName.equals("ROLE_MENTOR")) {
                 redirectURL = "/mentor-home";
             } else if (roleName.equals("ROLE_APRENDIZ")) {
