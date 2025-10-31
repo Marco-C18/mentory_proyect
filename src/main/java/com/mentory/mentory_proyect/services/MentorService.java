@@ -16,17 +16,17 @@ public class MentorService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // 🔹 Obtener mentor por ID
+    // Obtener mentor por ID
     public MentorModel obtenerPorId(Long id) {
         return mentorRepository.findById(id).orElse(null);
     }
 
-    // 🔹 Listar todos los mentores
+    // Listar todos los mentores
     public List<MentorModel> listarTodos() {
         return mentorRepository.findAll();
     }
 
-    // 🔹 Registrar nuevo mentor (con validaciones)
+    // Registrar nuevo mentor (con validaciones)
     public String registerUser(MentorModel user) {
         if (mentorRepository.existsByEmailUsuario(user.getEmailUsuario())) {
             return "El correo ya está registrado.";
@@ -48,19 +48,20 @@ public class MentorService {
             return "La contraseña debe tener al menos 8 caracteres.";
         }
 
-        // 🔹 Cifrar contraseña antes de guardar
+        // Cifrar contraseña antes de guardar
         user.setContraseñaUsuario(passwordEncoder.encode(user.getContraseñaUsuario()));
 
         mentorRepository.save(user);
         return "Registro exitoso";
     }
 
-    // 🔹 Buscar mentor por email (para autenticación y HomeController)
+    // Buscar mentor por email (para autenticación y HomeController)
     public MentorModel buscarPorEmail(String email) {
         return mentorRepository.findByEmailUsuario(email).orElse(null);
     }
 
-    public void guardarMentorDirecto(MentorModel mentor) {
-    mentorRepository.save(mentor);
-    }
+    public List<MentorModel> buscarPorFiltros(String especialidad, String ciclo) {
+    return mentorRepository.findByEspecialidadAndCicloAcademico(especialidad, ciclo);
+}
+
 }
