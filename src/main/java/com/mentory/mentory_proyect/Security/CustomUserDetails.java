@@ -2,6 +2,7 @@ package com.mentory.mentory_proyect.Security;
 
 import com.mentory.mentory_proyect.model.AprendizModel;
 import com.mentory.mentory_proyect.model.MentorModel;
+import com.mentory.mentory_proyect.model.UsuarioBaseModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ public class CustomUserDetails implements UserDetails {
     private final String role;
     private final Long id;
     private final String nombre;
+    private final Boolean perfilCompletado;
 
     // Constructor para Aprendiz
     public CustomUserDetails(AprendizModel user) {
@@ -24,6 +26,7 @@ public class CustomUserDetails implements UserDetails {
         this.role = "ROLE_APRENDIZ";
         this.id = user.getId();
         this.nombre = user.getNombreUsuario();
+        this.perfilCompletado = true; // Ya tiene perfil completo
     }
 
     // Constructor para Mentor
@@ -33,6 +36,17 @@ public class CustomUserDetails implements UserDetails {
         this.role = "ROLE_MENTOR";
         this.id = user.getId();
         this.nombre = user.getNombreUsuario();
+        this.perfilCompletado = true; // Ya tiene perfil completo
+    }
+
+    // 🔹 Constructor para UsuarioBase (sin perfil completo)
+    public CustomUserDetails(UsuarioBaseModel user) {
+        this.email = user.getEmailUsuario();
+        this.password = user.getContraseñaUsuario();
+        this.role = "ROLE_" + user.getRol(); // ROLE_PENDIENTE, ROLE_MENTOR, ROLE_APRENDIZ
+        this.id = user.getId();
+        this.nombre = user.getNombreUsuario();
+        this.perfilCompletado = user.getPerfilCompletado();
     }
 
     @Override
@@ -80,5 +94,9 @@ public class CustomUserDetails implements UserDetails {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public Boolean getPerfilCompletado() {
+        return perfilCompletado;
     }
 }

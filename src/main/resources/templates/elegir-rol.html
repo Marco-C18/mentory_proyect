@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completa tu perfil - MentorEdu</title>
+
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link rel="stylesheet" th:href="@{/css/elegir-rol.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <section class="card-container">
+        <section class="visual-card">
+            <img th:src="@{/img/forms/registro_mentory.png}" alt="Registro MentorEdu">
+        </section>
+
+        <section class="form-card">
+            <p class="Title">¡Bienvenido, <span th:text="${usuario.nombreUsuario}">Usuario</span>!</p>
+
+            <!-- PASO 2: Elección de rol -->
+            <div class="rol-selection" id="rol-selection">
+                <div class="rol-card mentor" onclick="elegirRol('MENTOR')">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <h3>Soy Mentor</h3>
+                    <p>Quiero compartir mis conocimientos y ayudar a otros</p>
+                </div>
+
+                <div class="rol-card aprendiz" onclick="elegirRol('APRENDIZ')">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h3>Soy Aprendiz</h3>
+                    <p>Quiero aprender de mentores expertos</p>
+                </div>
+            </div>
+
+            <!-- PASO 3: Formulario MENTOR -->
+            <div class="form-completar" id="form-mentor">
+                <p class="Title">Completa tu perfil de Mentor</p>
+
+                <form th:action="@{/registro/completar-mentor}" method="post">
+                    <div class="input-group ciclo">
+                        <div class="label">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <label for="cicloAcademicoMentor" class="select-label">Ciclo académico</label>
+                        </div>
+                        <div class="input-icon">
+                            <select id="cicloAcademicoMentor" name="cicloAcademico" required>
+                                <option value="" disabled selected>Selecciona tu ciclo</option>
+                                <option value="I Ciclo">I Ciclo</option>
+                                <option value="II Ciclo">II Ciclo</option>
+                                <option value="III Ciclo">III Ciclo</option>
+                                <option value="IV Ciclo">IV Ciclo</option>
+                                <option value="V Ciclo">V Ciclo</option>
+                                <option value="VI Ciclo">VI Ciclo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group interes">
+                        <label class="title" for="especialidadMentor">Especialidad</label>
+                        <select id="especialidadMentor" name="especialidad" required>
+                            <option value="" disabled selected>Selecciona tu especialidad</option>
+                            <option value="Programación">Programación</option>
+                            <option value="Matemáticas">Matemáticas</option>
+                            <option value="Ciencias">Ciencias</option>
+                            <option value="Idiomas">Idiomas</option>
+                            <option value="Arte">Arte</option>
+                        </select>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" class="btn-secondary" onclick="volverEleccion()">VOLVER</button>
+                        <button type="submit">REGISTRARME</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PASO 3: Formulario APRENDIZ -->
+            <div class="form-completar" id="form-aprendiz">
+                <p class="Title">Completa tu perfil de Aprendiz</p>
+
+                <form th:action="@{/registro/completar-aprendiz}" method="post">
+                    <div class="input-group ciclo">
+                        <div class="label">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <label for="cicloAcademicoAprendiz" class="select-label">Ciclo académico</label>
+                        </div>
+                        <div class="input-icon">
+                            <select id="cicloAcademicoAprendiz" name="cicloAcademico" required>
+                                <option value="" disabled selected>Selecciona tu ciclo</option>
+                                <option value="I Ciclo">I Ciclo</option>
+                                <option value="II Ciclo">II Ciclo</option>
+                                <option value="III Ciclo">III Ciclo</option>
+                                <option value="IV Ciclo">IV Ciclo</option>
+                                <option value="V Ciclo">V Ciclo</option>
+                                <option value="VI Ciclo">VI Ciclo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group interes">
+                        <label class="title" for="interesesAprendiz">Intereses de aprendizaje</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="interesesAprendiz" value="Programación"> Programación
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interesesAprendiz" value="Matemáticas"> Matemáticas
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interesesAprendiz" value="Ciencias"> Ciencias
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interesesAprendiz" value="Idiomas"> Idiomas
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interesesAprendiz" value="Arte"> Arte
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" class="btn-secondary" onclick="volverEleccion()">VOLVER</button>
+                        <button type="submit">REGISTRARME</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        function elegirRol(rol) {
+            document.getElementById('rol-selection').style.display = 'none';
+            
+            if (rol === 'MENTOR') {
+                document.getElementById('form-mentor').classList.add('active');
+            } else {
+                document.getElementById('form-aprendiz').classList.add('active');
+            }
+        }
+
+        function volverEleccion() {
+            document.getElementById('form-mentor').classList.remove('active');
+            document.getElementById('form-aprendiz').classList.remove('active');
+            document.getElementById('rol-selection').style.display = 'flex';
+        }
+    </script>
+
+    <script th:if="${showSuccessModal}">
+        showSuccessModal('[[${successMessage}]]');
+    </script>
+    <script th:src="@{/js/register.js}"></script>
+</body>
+
+</html>

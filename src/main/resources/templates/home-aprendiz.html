@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Home Aprendiz</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
   <div class="container">
@@ -12,10 +13,14 @@
 
       <!-- Perfil del usuario -->
       <div class="perfil">
-        <div class="perfil-avatar">👤</div>
+        <div class="perfil-avatar">
+          <img src="/img/forms/perfil.png" alt="Perfil">
+        </div>
         <div class="perfil-info">
           <p class="perfil-nombre" th:text="${aprendiz.nombreUsuario}">Nombre del aprendiz</p>
           <p class="perfil-rol">Aprendiz</p>
+          <p class="perfil-rol" th:text="${aprendiz.cicloAcademico}"> </p>
+          <p class="perfil-rol" th:text="${aprendiz.interesesAprendiz}"> </p>
         </div>
       </div>
 
@@ -27,7 +32,7 @@
 
         <li>
           <a href="#" onclick="mostrarSeccion('notificaciones')">
-            <i>🔔</i> Notificaciones
+            <i class="fa-solid fa-bell"></i> Notificaciones
             <span th:if="${notiCount > 0}" th:text="${notiCount}" 
               style="background:#ff4444;color:white;padding:3px 7px;border-radius:50%;margin-left:5px;font-size:12px;">
             </span>
@@ -131,6 +136,19 @@
       </section>
 
     </main>
+  </div>
+
+  <!-- Modal de confirmación -->
+  <div id="modalSalir" class="modal">
+    <div class="modal-content">
+      <i class="fa-solid fa-circle-exclamation modal-icon"></i>
+      <h3>¿Cerrar sesión?</h3>
+      <p>¿Estás seguro de que deseas salir?</p>
+      <div class="modal-buttons">
+        <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+        <button class="btn-confirmar" onclick="confirmarLogout()">Salir</button>
+      </div>
+    </div>
   </div>
 
   <script>

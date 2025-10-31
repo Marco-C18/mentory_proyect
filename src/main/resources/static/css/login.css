@@ -13,34 +13,6 @@ body {
   justify-content: center;
 }
 
-.btn-flotante {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff;
-  color: white;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  z-index: 1000;
-  text-decoration: none;
-}
-
-.btn-flotante:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
-}
-
-.btn-flotante img {
-  width: 28px;
-  height: 28px;
-  filter: invert(1);
-}
 
 .card-container {
   display: flex;

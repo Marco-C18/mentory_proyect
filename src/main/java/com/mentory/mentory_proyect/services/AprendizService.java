@@ -32,17 +32,10 @@ public class AprendizService {
             return "El correo ya está registrado.";
         }
 
-        if (aprendizRepository.existsByPhoneUsuario(user.getPhoneUsuario())) {
-            return "El teléfono ya está registrado.";
-        }
-
         if (!user.getNombreUsuario().matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$")) {
             return "El nombre solo puede contener letras.";
         }
 
-        if (!user.getPhoneUsuario().matches("\\d{9}")) {
-            return "El teléfono debe tener 9 dígitos numéricos.";
-        }
 
         if (user.getContraseñaUsuario().length() < 8) {
             return "La contraseña debe tener al menos 8 caracteres.";
@@ -58,5 +51,9 @@ public class AprendizService {
     // Buscar aprendiz por email (para autenticación y HomeController)
     public AprendizModel buscarPorEmail(String email) {
         return aprendizRepository.findByEmailUsuario(email).orElse(null);
+    }
+
+    public void guardarAprendizDirecto(AprendizModel aprendiz) {
+    aprendizRepository.save(aprendiz);
     }
 }
