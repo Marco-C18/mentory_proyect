@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <title>Inicio - Mentor</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
   <div class="container">
     <aside class="sidebar">
@@ -18,26 +20,30 @@
         </div>
         <div class="perfil-info">
           <p class="perfil-nombre" th:text="${mentor.nombreUsuario}">Nombre del mentor</p>
-          <p class="perfil-rol">Mentor</p> 
+          <p class="perfil-rol">Mentor</p>
           <p class="perfil-rol" th:text="${mentor.cicloAcademico}"> </p>
           <p class="perfil-rol" th:text="${mentor.especialidad}"> </p>
-          
+
         </div>
       </div>
 
       <ul>
-        <li><a href="#" onclick="mostrarSeccion('solicitudesRecibidas')"><i class="fa-solid fa-inbox"></i> Solicitudes</a></li>
-        <li><a href="#" onclick="mostrarSeccion('misAprendices')"><i class="fa-solid fa-users"></i> Mis aprendices</a></li>
-        <li><a href="#" onclick="mostrarSeccion('estadisticas')"><i class="fa-solid fa-chart-line"></i> Estadísticas</a></li>
+        <li><a href="#" onclick="mostrarSeccion('solicitudesRecibidas')"><i class="fa-solid fa-inbox"></i>
+            Solicitudes</a></li>
+        <li><a href="#" onclick="mostrarSeccion('misAprendices')"><i class="fa-solid fa-users"></i> Mis aprendices</a>
+        </li>
+        <li><a href="#" onclick="mostrarSeccion('estadisticas')"><i class="fa-solid fa-chart-line"></i> Estadísticas</a>
+        </li>
         <li>
           <a href="#" onclick="mostrarSeccion('notificaciones')">
             <i class="fa-solid fa-bell"></i> Notificaciones
-            <span th:if="${notiCount > 0}" th:text="${notiCount}" 
+            <span th:if="${notiCount > 0}" th:text="${notiCount}"
               style="background:#ff4444;color:white;padding:3px 7px;border-radius:50%;margin-left:5px;font-size:12px;">
             </span>
           </a>
         </li>
-        <li><a href="#" onclick="confirmarSalida(event)" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+        <li><a href="#" onclick="confirmarSalida(event)" class="logout"><i class="fa-solid fa-right-from-bracket"></i>
+            Salir</a></li>
       </ul>
     </aside>
 
@@ -46,7 +52,7 @@
       <section id="solicitudesRecibidas" class="seccion">
         <h2>Solicitudes Recibidas</h2>
         <div th:each="sol : ${solicitudes}">
-          <p><strong th:text="${sol.aprendiz.nombreUsuario}"></strong> Quiere ser tu aprendiz.</p>
+          <p><strong th:text="${sol.aprendiz.nombreUsuario}"></strong> quiere ser tu aprendiz.</p>
           <p>Estado: <span th:text="${sol.estado}"></span></p>
           <div th:if="${sol.estado == 'pendiente'}">
             <form th:action="@{/solicitudes/responder/{id}(id=${sol.id})}" method="post" style="display:flex;gap:10px;">
@@ -115,7 +121,7 @@
     }
 
     // Cerrar modal al hacer clic fuera de él
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       const modal = document.getElementById('modalSalir');
       if (event.target === modal) {
         cerrarModal();
@@ -123,4 +129,5 @@
     }
   </script>
 </body>
+
 </html>

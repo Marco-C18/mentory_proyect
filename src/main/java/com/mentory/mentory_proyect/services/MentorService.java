@@ -61,7 +61,11 @@ public class MentorService {
     }
 
     public List<MentorModel> buscarPorFiltros(String especialidad, String ciclo) {
-    return mentorRepository.findByEspecialidadAndCicloAcademico(especialidad, ciclo);
-}
+        return mentorRepository.findByEspecialidadAndCicloAcademico(especialidad, ciclo);
+    }
+
+    public void guardarMentorDirecto(MentorModel mentor) {
+        mentorRepository.save(mentor);
+    }
 
 }
