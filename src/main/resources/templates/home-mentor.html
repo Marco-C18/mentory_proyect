@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Inicio - Mentor</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
@@ -65,17 +66,63 @@
 
       <!-- Mis Aprendices -->
       <section id="misAprendices" class="seccion" style="display:none;">
-        <h2>Mis Aprendices</h2>
-        <div th:each="a : ${aprendices}">
-          <p><strong th:text="${a.nombreUsuario}"></strong> - <span th:text="${a.cicloAcademico}"></span></p>
-        </div>
-      </section>
+  <h2 style="margin-bottom:20px;">Mis Aprendices</h2>
+
+  <div class="aprendices-grid">
+
+    <div th:each="sol : ${solicitudesAceptadas}" class="aprendiz-card">
+
+      <!-- Info del aprendiz -->
+      <div class="aprendiz-info">
+        <h3 th:text="${sol.aprendiz.nombreUsuario}">Nombre</h3>
+        <p><strong>Ciclo:</strong> <span th:text="${sol.aprendiz.cicloAcademico}"></span></p>
+      </div>
+
+      <!-- Formulario de calificación -->
+      <form th:action="@{/solicitudes/mentor/calificar}" method="post" class="form-calificacion">
+        <input type="hidden" name="solicitudId" th:value="${sol.id}">
+
+        <label>Calificación</label>
+        <select name="calificacion" required>
+          <option value="1">⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
+
+        <textarea name="retroalimentacion" placeholder="Escribe una retroalimentación..." required></textarea>
+
+        <button type="submit">Guardar Evaluación</button>
+      </form>
+
+    </div>
+
+  </div>
+</section>
 
       <!-- Estadísticas -->
       <section id="estadisticas" class="seccion" style="display:none;">
-        <h2>Estadísticas</h2>
-        <p>Aquí verás tus métricas y progreso con tus aprendices.</p>
-      </section>
+      <h2>Estadísticas</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3 th:text="${totalSolicitudes}">0</h3>
+          <p>Solicitudes Recibidas</p>
+        </div>
+
+        <div class="stat-card">
+          <h3 th:text="${totalAceptadas}">0</h3>
+          <p>Solicitudes Aceptadas</p>
+        </div>
+
+        <div class="stat-card">
+          <h3 th:text="${promedioCalificacion}">0.0</h3>
+          <p>Promedio de Calificación</p>
+        </div>
+      </div>
+    </section>
+
 
       <!-- Notificaciones -->
       <section id="notificaciones" class="seccion" style="display:none;">

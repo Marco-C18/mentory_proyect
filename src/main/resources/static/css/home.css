@@ -412,3 +412,86 @@ button:active {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+.aprendices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.aprendiz-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.aprendiz-info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.form-calificacion label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-calificacion select,
+.form-calificacion textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.form-calificacion textarea {
+  resize: none;
+  height: 80px;
+}
+
+.form-calificacion button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.form-calificacion button:hover {
+  background: #43a047;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 32px;
+  color: #6a11cb;
+}
+
+.stat-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+

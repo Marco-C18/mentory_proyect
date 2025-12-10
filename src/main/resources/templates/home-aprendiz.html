@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Home Aprendiz</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
@@ -98,6 +99,39 @@
           </div>
         </div>
       </section>
+
+      <!-- MIS MENTORÍAS -->
+        <section id="misMentorias" class="seccion" style="display:none;">
+          <h2>Mis Mentorías</h2>
+
+          <div class="mentor-list" th:if="${#lists.isEmpty(misMentores)}">
+            <p>No tienes mentorías aceptadas aún.</p>
+          </div>
+
+          <div class="mentor-list" th:each="sol : ${misMentores}">
+            <div class="mentor-card">
+              <h3 th:text="${sol.mentor.nombreUsuario}">Nombre Mentor</h3>
+
+              <p><strong>Especialidad:</strong>
+                <span th:text="${sol.mentor.especialidad}"></span>
+              </p>
+
+              <p><strong>Calificación:</strong>
+                <span>
+                  <span th:if="${sol.calificacion != null}">
+                    <span th:each="i : ${#numbers.sequence(1, sol.calificacion)}">⭐</span>
+                  </span>
+                  <span th:if="${sol.calificacion == null}">Sin calificar</span>
+                </span>
+              </p>
+
+              <p><strong>Retroalimentación:</strong>
+                <span th:text="${sol.retroalimentacion != null ? sol.retroalimentacion : 'Sin comentarios'}"></span>
+              </p>
+            </div>
+          </div>
+        </section>
+
 
       <!-- Mis Solicitudes -->
       <section id="solicitudes" class="seccion" style="display:none;">
