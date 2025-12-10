@@ -27,7 +27,8 @@ public class SecurityConfig {
                                 "/registro/elegir-rol", 
                                 "/registro/completar-mentor", 
                                 "/registro/completar-aprendiz",
-                                "/auth/google")
+                                "/auth/google",
+                                "/admin/**") // Permitir acceso al panel de admin
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

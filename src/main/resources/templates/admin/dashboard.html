@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - MentorEdu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1><i class="fas fa-chart-line"></i> Panel de Administración - MentorEdu</h1>
+            <a th:href="@{/admin/logout}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h2>Bienvenido, Administrador</h2>
+            <p>Vista general de estadísticas de la plataforma MentorEdu</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card blue">
+                <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                <div class="stat-content">
+                    <h3>Estudiantes</h3>
+                    <div class="stat-number" th:text="${totalEstudiantes}">0</div>
+                    <div class="stat-label">Total de aprendices registrados</div>
+                </div>
+            </div>
+
+            <div class="stat-card purple">
+                <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="stat-content">
+                    <h3>Mentores</h3>
+                    <div class="stat-number" th:text="${totalMentores}">0</div>
+                    <div class="stat-label">Total de mentores activos</div>
+                </div>
+            </div>
+
+            <div class="stat-card orange">
+                <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                <div class="stat-content">
+                    <h3>Solicitudes</h3>
+                    <div class="stat-number" th:text="${totalSolicitudes}">0</div>
+                    <div class="stat-label">Total de solicitudes</div>
+                </div>
+            </div>
+
+            <div class="stat-card green">
+                <div class="stat-icon"><i class="fas fa-bell"></i></div>
+                <div class="stat-content">
+                    <h3>Recordatorios</h3>
+                    <div class="stat-number" th:text="${totalRecordatorios}">0</div>
+                    <div class="stat-label">Recordatorios creados</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detailed-stats">
+            <h3><i class="fas fa-chart-pie"></i> Detalles de Solicitudes</h3>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <span class="status-badge pending"><i class="fas fa-clock"></i></span>
+                    Solicitudes Pendientes
+                </span>
+                <span class="detail-value" th:text="${solicitudesPendientes}">0</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <span class="status-badge accepted"><i class="fas fa-check"></i></span>
+                    Solicitudes Aceptadas
+                </span>
+                <span class="detail-value" th:text="${solicitudesAceptadas}">0</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    <span class="status-badge rejected"><i class="fas fa-times"></i></span>
+                    Solicitudes Rechazadas
+                </span>
+                <span class="detail-value" th:text="${solicitudesRechazadas}">0</span>
+            </div>
+            <div class="detail-row highlight">
+                <span class="detail-label">
+                    <span class="status-badge ratio"><i class="fas fa-chart-line"></i></span>
+                    Ratio Mentor/Estudiante
+                </span>
+                <span class="detail-value" 
+                      th:text="${totalMentores > 0 ? #numbers.formatDecimal(totalEstudiantes / totalMentores, 1, 2) + ':1' : 'N/A'}">
+                    N/A
+                </span>
+            </div>
+        </div>
+
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-users"></i></div>
+                <div class="info-content">
+                    <h4>Total de Usuarios</h4>
+                    <p class="info-number" th:text="${totalEstudiantes + totalMentores}">0</p>
+                    <p class="info-description">Usuarios registrados en la plataforma</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-percentage"></i></div>
+                <div class="info-content">
+                    <h4>Tasa de Aceptación</h4>
+                    <p class="info-number" 
+                       th:text="${totalSolicitudes > 0 ? #numbers.formatDecimal((solicitudesAceptadas * 100.0) / totalSolicitudes, 1, 1) + '%' : '0%'}">
+                        0%
+                    </p>
+                    <p class="info-description">De solicitudes aceptadas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

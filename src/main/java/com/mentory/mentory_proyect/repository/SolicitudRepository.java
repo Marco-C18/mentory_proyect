@@ -9,4 +9,7 @@ import java.util.List;
 public interface SolicitudRepository extends JpaRepository<SolicitudModel, Long> {
     List<SolicitudModel> findByMentor(MentorModel mentor);
     List<SolicitudModel> findByAprendiz(AprendizModel aprendiz);
+
+    // Métodos para contar por estado
+    long countByEstado(String estado);
 }
