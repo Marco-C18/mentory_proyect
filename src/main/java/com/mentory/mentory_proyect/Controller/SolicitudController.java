@@ -59,4 +59,21 @@ public class SolicitudController {
 
         return "redirect:/mentor-home";
     }
+
+    @PostMapping("/mentor/calificar")
+    public String calificarAprendiz(
+        @RequestParam Long solicitudId,
+        @RequestParam Integer calificacion,
+        @RequestParam String retroalimentacion) {
+
+    SolicitudModel solicitud = solicitudService.obtenerPorId(solicitudId);
+    solicitud.setCalificacion(calificacion);
+    solicitud.setRetroalimentacion(retroalimentacion);
+    solicitudService.guardar(solicitud);
+
+    return "redirect:/mentor-home";
+
+}
+
+
 }

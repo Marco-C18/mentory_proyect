@@ -2,6 +2,9 @@ package com.mentory.mentory_proyect.Controller;
 
 import com.mentory.mentory_proyect.model.*;
 import com.mentory.mentory_proyect.services.*;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.mentory.mentory_proyect.Security.CustomUserDetails;
 
 import java.time.LocalDateTime;
@@ -57,7 +60,9 @@ public class HomeController {
         model.addAttribute("notificaciones", notificacionService.obtenerNotificaciones(aprendiz.getId()));
         model.addAttribute("notiCount", notificacionService.contarNoLeidas(aprendiz.getId()));
         model.addAttribute("recordatorios", recordatorioService.listarPorUsuario(aprendiz.getId()));
-
+          
+        model.addAttribute("misMentores",
+        solicitudService.listarSolicitudesAceptadasPorAprendiz(aprendiz));
 
         return "home-aprendiz";
     }
@@ -99,17 +104,43 @@ public String buscarMentores(
 
 
 
-    @GetMapping("/mentor-home")
-    public String homeMentor(Model model, Authentication auth) {
-        String email = getEmail(auth);
-        MentorModel mentor = mentorService.buscarPorEmail(email);
-        if (mentor == null) return "redirect:/login";
+  @GetMapping("/mentor-home")
+public String homeMentor(Model model, Authentication auth, HttpSession session) {
 
-        model.addAttribute("mentor", mentor);
-        model.addAttribute("solicitudes", solicitudService.listarSolicitudesMentor(mentor));
-        model.addAttribute("notificaciones", notificacionService.obtenerNotificaciones(mentor.getId()));
-        model.addAttribute("notiCount", notificacionService.contarNoLeidas(mentor.getId()));
+    String email = getEmail(auth);
+    MentorModel mentor = mentorService.buscarPorEmail(email);
 
-        return "home-mentor";
-    }
+    if (mentor == null) return "redirect:/login";
+
+    session.setAttribute("usuarioId", mentor.getId());
+
+    model.addAttribute("mentor", mentor);
+
+    model.addAttribute("solicitudes",
+            solicitudService.listarSolicitudesMentor(mentor));
+
+    model.addAttribute("solicitudesAceptadas",
+            solicitudService.listarSolicitudesAceptadas(mentor));
+
+    model.addAttribute("notificaciones",
+            notificacionService.obtenerNotificaciones(mentor.getId()));
+
+    model.addAttribute("notiCount",
+            notificacionService.contarNoLeidas(mentor.getId()));
+
+    // ✅ NUEVAS ESTADÍSTICAS (SEGURO)
+    model.addAttribute("totalSolicitudes",
+            solicitudService.contarSolicitudesPorMentor(mentor.getId()));
+
+    model.addAttribute("totalAceptadas",
+            solicitudService.contarSolicitudesAceptadas(mentor.getId()));
+
+    model.addAttribute("promedioCalificacion",
+            solicitudService.obtenerPromedioCalificacion(mentor.getId()));
+
+    return "home-mentor";
+}
+
+
+
 }

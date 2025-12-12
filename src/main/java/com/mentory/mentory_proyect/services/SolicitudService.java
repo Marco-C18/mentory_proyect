@@ -36,6 +36,10 @@ public class SolicitudService {
         return solicitudRepository.findByAprendiz(aprendiz);
     }
 
+    public List<SolicitudModel> listarSolicitudesAceptadas(MentorModel mentor) {
+    return solicitudRepository.findByMentorAndEstado(mentor, "ACEPTADA");
+    }
+
     // Envío del correo cuando se acepta / rechaza la solicitud
     public void actualizarEstado(Long id, String estado) {
         SolicitudModel solicitud = solicitudRepository.findById(id)
@@ -56,5 +60,38 @@ public class SolicitudService {
     public SolicitudModel obtenerPorId(Long id) {
         return solicitudRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+    }
+
+    public SolicitudModel guardar(SolicitudModel solicitud) {
+        return solicitudRepository.save(solicitud);
+    }
+
+    public void guardarCalificacion(Long id, int calificacion, String retroalimentacion) {
+    SolicitudModel sol = solicitudRepository.findById(id).orElse(null);
+
+    if (sol != null) {
+        sol.setCalificacion(calificacion);
+        sol.setRetroalimentacion(retroalimentacion);
+        solicitudRepository.save(sol);
+    }
+    }
+
+    public List<SolicitudModel> listarSolicitudesAceptadasPorAprendiz(AprendizModel aprendiz) {
+        return solicitudRepository.findByAprendizAndEstado(aprendiz, "aceptada");
+    }
+
+    // Total de solicitudes del mentor
+    public int contarSolicitudesPorMentor(Long mentorId) {
+        return solicitudRepository.countByMentorId(mentorId);
+    }
+
+    // Total de solicitudes aceptadas del mentor
+    public int contarSolicitudesAceptadas(Long mentorId) {
+        return solicitudRepository.countByMentorIdAndEstadoIgnoreCase(mentorId, "ACEPTADA");
+    }
+
+    // Promedio de calificaciones
+    public Double obtenerPromedioCalificacion(Long mentorId) {
+        return solicitudRepository.promedioCalificacionPorMentor(mentorId);
     }
 }

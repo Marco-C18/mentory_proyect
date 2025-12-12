@@ -25,6 +25,27 @@ public class SolicitudModel {
     private String estado; // pendiente, aceptada, rechazada
     private LocalDateTime fechaCreacion = LocalDateTime.now();
 
+    private Integer calificacion;   // 1 a 5 estrellas
+    
+    @Column(length = 500)
+    private String retroalimentacion;
+
+    public Integer getCalificacion() {
+    return calificacion;
+    }
+
+    public void setCalificacion(Integer calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public String getRetroalimentacion() {
+        return retroalimentacion;
+    }
+
+    public void setRetroalimentacion(String retroalimentacion) {
+        this.retroalimentacion = retroalimentacion;
+    }
+
     public SolicitudModel() {}
 
     public SolicitudModel(AprendizModel aprendiz, MentorModel mentor, String mensaje, String estado) {
